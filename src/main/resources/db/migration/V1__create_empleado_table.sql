@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS empleados (
+    clave VARCHAR(100) PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    direccion VARCHAR(100) NOT NULL,
+    telefono VARCHAR(100) NOT NULL,
+    version BIGINT NOT NULL DEFAULT 0
+);

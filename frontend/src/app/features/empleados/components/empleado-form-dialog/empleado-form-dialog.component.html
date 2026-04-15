@@ -1,0 +1,47 @@
+<div class="overlay" role="dialog" aria-modal="true" aria-labelledby="empleado-dialog-title">
+  <section class="dialog">
+    <header class="dialog-header">
+      <h3 id="empleado-dialog-title">{{ value ? 'Editar empleado' : 'Nuevo empleado' }}</h3>
+      <p>Completa los datos requeridos para guardar el registro.</p>
+    </header>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+      <label for="empleado-clave">Clave</label>
+      <input id="empleado-clave" type="text" formControlName="clave" />
+      @if (form.controls.clave.invalid && form.controls.clave.touched) {
+        <small class="error-text">La clave es obligatoria.</small>
+      }
+
+      <label for="empleado-nombre">Nombre</label>
+      <input id="empleado-nombre" type="text" formControlName="nombre" />
+      @if (form.controls.nombre.invalid && form.controls.nombre.touched) {
+        <small class="error-text">El nombre es obligatorio.</small>
+      }
+
+      <label for="empleado-direccion">Direccion</label>
+      <input id="empleado-direccion" type="text" formControlName="direccion" />
+      @if (form.controls.direccion.invalid && form.controls.direccion.touched) {
+        <small class="error-text">La direccion es obligatoria.</small>
+      }
+
+      <label for="empleado-telefono">Telefono</label>
+      <input id="empleado-telefono" type="text" formControlName="telefono" />
+      @if (form.controls.telefono.invalid && form.controls.telefono.touched) {
+        <small class="error-text">El telefono es obligatorio.</small>
+      }
+
+      <label for="empleado-departamento">Departamento</label>
+      <select id="empleado-departamento" formControlName="departamentoClave">
+        <option value="">Sin departamento</option>
+        @for (item of departamentos; track item.clave) {
+          <option [value]="item.clave">{{ item.nombre }}</option>
+        }
+      </select>
+
+      <footer>
+        <button class="btn btn-secondary" type="button" (click)="cancel.emit()">Cancelar</button>
+        <button class="btn btn-primary" type="submit">Guardar</button>
+      </footer>
+    </form>
+  </section>
+</div>

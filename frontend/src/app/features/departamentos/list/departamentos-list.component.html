@@ -1,0 +1,78 @@
+<section class="list-page">
+  <header class="list-header">
+    <div>
+      <h2>Departamentos</h2>
+      <p class="subtitle">Administra las areas de la organizacion.</p>
+    </div>
+    <button class="btn btn-primary" type="button" (click)="openCreateDialog()">
+      Nuevo departamento
+    </button>
+  </header>
+
+  <div class="meta-row" aria-live="polite">
+    <span class="chip">Pagina: {{ page + 1 }}</span>
+    <span class="chip">Tamano: {{ size }}</span>
+    <span class="chip">Total: {{ totalElements }}</span>
+  </div>
+
+  <app-list-state
+    [loading]="loading"
+    [error]="error"
+    [empty]="!loading && !error && rows.length === 0"
+  ></app-list-state>
+
+  @if (!loading && !error && rows.length > 0) {
+    <div class="table-card" role="region" aria-label="Tabla de departamentos">
+      <div class="table-headline">
+        <h3>Catalogo de areas</h3>
+        <p>{{ totalElements }} elemento(s) encontrados</p>
+      </div>
+      <table>
+      <thead>
+        <tr>
+          <th>Clave</th>
+          <th>Nombre</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of rows; track item.clave) {
+          <tr>
+            <td><span class="key-pill">{{ item.clave }}</span></td>
+            <td>{{ item.nombre }}</td>
+            <td class="actions-cell">
+              <button class="btn btn-secondary" type="button" (click)="openEditDialog(item)">Editar</button>
+              <button class="btn btn-danger" type="button" (click)="requestDelete(item)">Eliminar</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+    </div>
+  }
+
+  <app-pagination
+    [page]="page"
+    [size]="size"
+    [totalPages]="totalPages"
+    (pageChange)="onPageChange($event)"
+    (sizeChange)="onSizeChange($event)"
+  ></app-pagination>
+
+  @if (showFormDialog) {
+    <app-departamento-form-dialog
+      [value]="selectedDepartamento"
+      (cancel)="closeFormDialog()"
+      (create)="createDepartamento($event)"
+      (update)="updateDepartamento($event)"
+    ></app-departamento-form-dialog>
+  }
+
+  @if (deleteTarget) {
+    <app-departamento-delete-confirm
+      [clave]="deleteTarget.clave"
+      (cancel)="cancelDelete()"
+      (confirm)="confirmDelete()"
+    ></app-departamento-delete-confirm>
+  }
+</section>

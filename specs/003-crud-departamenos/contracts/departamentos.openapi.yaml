@@ -1,0 +1,237 @@
+openapi: 3.0.3
+info:
+  title: API CRUD Departamentos
+  version: 1.0.0
+  description: Contrato del CRUD de departamentos con HTTP Basic, rutas versionadas y listado paginado.
+servers:
+  - url: http://localhost:8080
+security:
+  - basicAuth: []
+paths:
+  /api/v1/departamentos:
+    post:
+      summary: Crear departamento
+      operationId: crearDepartamento
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepartamentoCreateRequest'
+      responses:
+        '201':
+          description: Departamento creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepartamentoResponse'
+        '400':
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Credenciales inválidas o ausentes
+        '409':
+          description: Clave duplicada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      summary: Listar departamentos
+      operationId: listarDepartamentos
+      parameters:
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - in: query
+          name: size
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 10
+      responses:
+        '200':
+          description: Página de departamentos ordenada por clave ascendente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepartamentoPageResponse'
+        '400':
+          description: Paginación inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Credenciales inválidas o ausentes
+
+  /api/v1/departamentos/{clave}:
+    get:
+      summary: Obtener departamento por clave
+      operationId: obtenerDepartamentoPorClave
+      parameters:
+        - in: path
+          name: clave
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 100
+      responses:
+        '200':
+          description: Departamento encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepartamentoResponse'
+        '401':
+          description: Credenciales inválidas o ausentes
+        '404':
+          description: Departamento no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Actualizar departamento
+      operationId: actualizarDepartamento
+      parameters:
+        - in: path
+          name: clave
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 100
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepartamentoUpdateRequest'
+      responses:
+        '200':
+          description: Departamento actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepartamentoResponse'
+        '400':
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Credenciales inválidas o ausentes
+        '404':
+          description: Departamento no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Eliminar departamento
+      operationId: eliminarDepartamento
+      parameters:
+        - in: path
+          name: clave
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 100
+      responses:
+        '204':
+          description: Departamento eliminado
+        '401':
+          description: Credenciales inválidas o ausentes
+        '404':
+          description: Departamento no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    DepartamentoCreateRequest:
+      type: object
+      required: [clave, nombre]
+      properties:
+        clave:
+          type: string
+          minLength: 1
+          maxLength: 100
+        nombre:
+          type: string
+          minLength: 1
+          maxLength: 100
+    DepartamentoUpdateRequest:
+      type: object
+      required: [nombre]
+      properties:
+        nombre:
+          type: string
+          minLength: 1
+          maxLength: 100
+    DepartamentoResponse:
+      type: object
+      required: [clave, nombre]
+      properties:
+        clave:
+          type: string
+        nombre:
+          type: string
+    DepartamentoPageResponse:
+      type: object
+      required: [content, page, size, totalElements, totalPages, sort]
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/DepartamentoResponse'
+        page:
+          type: integer
+          minimum: 0
+        size:
+          type: integer
+          minimum: 1
+          maximum: 50
+        totalElements:
+          type: integer
+          minimum: 0
+        totalPages:
+          type: integer
+          minimum: 0
+        sort:
+          type: object
+          required: [field, direction]
+          properties:
+            field:
+              type: string
+              example: clave
+            direction:
+              type: string
+              example: ASC
+    ErrorResponse:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+        message:
+          type: string

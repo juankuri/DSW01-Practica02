@@ -1,0 +1,18 @@
+<div class="pagination">
+  <div class="pager-actions">
+    <button type="button" (click)="prev()" [disabled]="page === 0">Anterior</button>
+
+    <span class="pager-status">Pagina {{ page + 1 }} de {{ totalPages || 1 }}</span>
+
+    <button type="button" (click)="next()" [disabled]="page + 1 >= totalPages">Siguiente</button>
+  </div>
+
+  <label class="size-control">
+    Tamano
+    <select [value]="size" (change)="onSizeChange($any($event.target).value)">
+      @for (item of sizes; track item) {
+        <option [value]="item">{{ item }}</option>
+      }
+    </select>
+  </label>
+</div>

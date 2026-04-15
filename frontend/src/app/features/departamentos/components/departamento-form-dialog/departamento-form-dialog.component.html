@@ -1,0 +1,27 @@
+<div class="overlay" role="dialog" aria-modal="true" aria-labelledby="departamento-dialog-title">
+  <section class="dialog">
+    <header class="dialog-header">
+      <h3 id="departamento-dialog-title">{{ value ? 'Editar departamento' : 'Nuevo departamento' }}</h3>
+      <p>Define la clave y el nombre para guardar esta area.</p>
+    </header>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+      <label for="departamento-clave">Clave</label>
+      <input id="departamento-clave" type="text" formControlName="clave" />
+      @if (form.controls.clave.invalid && form.controls.clave.touched) {
+        <small class="error-text">La clave es obligatoria.</small>
+      }
+
+      <label for="departamento-nombre">Nombre</label>
+      <input id="departamento-nombre" type="text" formControlName="nombre" />
+      @if (form.controls.nombre.invalid && form.controls.nombre.touched) {
+        <small class="error-text">El nombre es obligatorio.</small>
+      }
+
+      <footer>
+        <button class="btn btn-secondary" type="button" (click)="cancel.emit()">Cancelar</button>
+        <button class="btn btn-primary" type="submit">Guardar</button>
+      </footer>
+    </form>
+  </section>
+</div>

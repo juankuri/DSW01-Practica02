@@ -1,0 +1,117 @@
+:host {
+  display: block;
+}
+
+.login-page {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 2.4vw, 2rem);
+}
+
+.login-card {
+  width: min(980px, 100%);
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  background: linear-gradient(138deg, #ffffff 0%, #f8fcfb 100%);
+  border: 1px solid var(--ui-border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--ui-shadow);
+  animation: rise-in 260ms ease;
+}
+
+.hero-panel {
+  padding: clamp(1.1rem, 2.6vw, 2rem);
+  background: linear-gradient(155deg, #0c7a67 0%, #0f5f5d 60%, #18454e 100%);
+  color: #f4fcfa;
+}
+
+.eyebrow {
+  margin-bottom: 0.4rem;
+  font-weight: 700;
+  color: #f5cc88;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.76rem;
+}
+
+.hero-panel h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3.8vw, 2.1rem);
+}
+
+.subtitle {
+  margin: 0.55rem 0 1rem;
+  color: #d4efea;
+}
+
+ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.55rem;
+  color: #e4f5f0;
+}
+
+.form-panel {
+  padding: clamp(1.1rem, 2.6vw, 2rem);
+}
+
+h2 {
+  margin: 0;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+}
+
+.form-subtitle {
+  margin: 0.4rem 0 1rem;
+  color: var(--ui-text-soft);
+}
+
+form {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.field-label {
+  font-weight: 600;
+}
+
+input {
+  border: 1px solid var(--ui-border-strong);
+  border-radius: 11px;
+  padding: 0.65rem 0.75rem;
+  background: var(--ui-surface-2);
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+input:focus {
+  border-color: var(--ui-primary);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--ui-primary) 16%, transparent);
+}
+
+.btn {
+  margin-top: 0.75rem;
+  min-height: 44px;
+}
+
+small,
+.error {
+  color: #ac2738;
+}
+
+.hint {
+  margin-top: 0.45rem;
+  color: var(--ui-text-soft);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .login-card {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-panel {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  }
+}
