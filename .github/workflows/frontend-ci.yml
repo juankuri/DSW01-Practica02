@@ -1,0 +1,44 @@
+name: Frontend CI
+
+on:
+    push:
+        branches: [main, develop]
+    pull_request:
+        branches: [main, develop]
+
+jobs:
+    unit-and-e2e:
+        name: Unit tests + Cypress
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [22.x]
+        defaults:
+            run:
+                working-directory: frontend
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: "npm"
+
+            - name: Install frontend dependencies
+              run: npm ci
+
+            - name: Run unit tests
+              run: npm test -- --watch=false --browsers=ChromeHeadless
+              env:
+                  CI: true
+            - name: Run Cypress E2E
+              uses: cypress-io/github-action@v5
+              with:
+                  start: npm start
+                  wait-on: http://localhost:4200
+                  wait-on-timeout: 60
+                  browser: chrome
+              env:
+                  CI: true

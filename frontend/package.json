@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "cy:run": "cypress run --browser chrome",
+    "e2e": "start-server-and-test start http://localhost:4200 cy:run"
   },
   "private": true,
   "packageManager": "npm@10.8.2",
@@ -27,6 +29,8 @@
     "jsdom": "^28.0.0",
     "prettier": "^3.8.1",
     "typescript": "~5.9.2",
-    "vitest": "^4.0.8"
+    "vitest": "^4.0.8",
+    "cypress": "^12.0.0",
+    "start-server-and-test": "^1.14.0"
   }
 }
