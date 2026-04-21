@@ -30,12 +30,13 @@ jobs:
             - name: Install frontend dependencies
               working-directory: frontend
               run: |
-                # prefer a clean install when lockfile exists, otherwise fallback to npm install
-                if [ -f package-lock.json ]; then
-                  npm ci
-                else
-                  npm install
-                fi
+                  # prefer a clean install when lockfile exists; fall back to npm install if npm ci fails
+                  if [ -f package-lock.json ]; then
+                    echo "Found package-lock.json — running npm ci (fallback to npm install on failure)"
+                    npm ci || npm install
+                  else
+                    npm install
+                  fi
 
             - name: Run frontend unit tests
               working-directory: frontend
