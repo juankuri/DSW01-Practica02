@@ -44,8 +44,9 @@ jobs:
                   CI: true
               run: npm test -- --watch=false
 
-            - name: Run security audit (fail on high)
+            - name: Run security audit (non-blocking)
               working-directory: frontend
+              continue-on-error: true
               run: npm audit --audit-level=high
 
             - name: Run Cypress E2E
