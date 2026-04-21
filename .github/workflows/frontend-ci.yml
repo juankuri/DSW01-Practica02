@@ -28,16 +28,26 @@ jobs:
 
             - name: Install frontend dependencies
               run: npm ci
+              working-directory: frontend
 
-            - name: Run unit tests
-              run: npm test -- --watch=false --browsers=ChromeHeadless
+            - name: Run frontend unit tests
+              working-directory: frontend
               env:
                   CI: true
+                  CHROME_BIN: /usr/bin/google-chrome
+              run: npm test -- --watch=false --browsers=ChromeHeadless
+
+            - name: Run security audit (fail on high)
+              working-directory: frontend
+              run: npm audit --audit-level=high
+
             - name: Run Cypress E2E
-              uses: cypress-io/github-action@v5
+              uses: cypress-io/github-action@v6
               with:
-                  start: npm start
-                  wait-on: http://localhost:4200
+                  working-directory: frontend
+                  install: false
+                  start: npm start -- --host 0.0.0.0 --port 4200
+                  wait-on: "http://localhost:4200"
                   wait-on-timeout: 60
                   browser: chrome
               env:
