@@ -19,8 +19,6 @@ jobs:
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
-              with:
-                  fetch-depth: 0
 
             - name: Setup Node.js
               uses: actions/setup-node@v4
@@ -55,11 +53,12 @@ jobs:
               uses: SonarSource/sonarcloud-github-action@v3
               env:
                   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   args: >-
                       -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }}
                       -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
-                      -Dsonar.sources=.
+                      -Dsonar.sources=frontend/src,src/main/java
                       -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/target/**,**/cypress/**,**/frontend/node_modules/**,**/frontend/dist/**
 
             - name: Run Cypress E2E
