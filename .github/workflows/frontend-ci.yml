@@ -56,8 +56,8 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   args: >-
-                      -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }}
-                      -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
+                  -Dsonar.projectKey=juankuri_DSW01-Practica02
+                  -Dsonar.organization=juankuri-1
                       -Dsonar.sources=frontend/src,src/main/java
                       -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/target/**,**/cypress/**,**/frontend/node_modules/**,**/frontend/dist/**
 
