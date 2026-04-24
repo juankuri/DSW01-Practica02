@@ -57,6 +57,7 @@ jobs:
               run: npm audit --audit-level=high
 
             - name: Build backend classes
+              working-directory: ${{ github.workspace }}
               run: mvn -B -DskipTests=true package
 
             - name: SonarCloud scan
