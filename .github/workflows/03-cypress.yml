@@ -29,10 +29,11 @@ jobs:
               working-directory: frontend
               run: |
                   if [ -f package-lock.json ]; then
-                    echo "Found package-lock.json — running npm ci (fallback to npm install on failure)"
-                    npm ci || npm install
+                    echo "Found package-lock.json — running npm ci with scripts disabled"
+                    npm ci --ignore-scripts
                   else
-                    npm install
+                    echo "Missing package-lock.json; refusing to install unlocked dependencies"
+                    exit 1
                   fi
 
             - name: Set up JDK 17
