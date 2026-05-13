@@ -38,13 +38,7 @@ jobs:
                     org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
                     -Dsonar.projectKey=juankuri_DSW01-Practica02 \
                     -Dsonar.organization=juankuri-1 \
-                    -Dsonar.host.url=https://sonarcloud.io
-              env:
-                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-            - name: SonarCloud Quality Gate
-              uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
-              with:
-                  timeout-minutes: 10
+                                        -Dsonar.host.url=https://sonarcloud.io \
+                                        -Dsonar.qualitygate.wait=true
               env:
                   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
