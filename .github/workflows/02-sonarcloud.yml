@@ -1,32 +1,26 @@
 name: 02 SonarCloud analysis
 
 on:
-    workflow_run:
-        workflows: ["01 CI - Tests"]
+    push:
         branches: ["main", "dev"]
-        types:
-            - completed
     workflow_dispatch:
 
 permissions:
     contents: read
-    pull-requests: read
 
 jobs:
     analysis:
         name: SonarCloud Scan
         runs-on: ubuntu-latest
-        if: ${{ github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' && github.event.workflow_run.head_repository.full_name == github.repository && github.event.workflow_run.head_repository.fork == false) }}
 
         steps:
             - name: Checkout code
-              uses: actions/checkout@v4
+              uses: actions/checkout@8e5e7e5ab8b370d6c329ec480dd894686673b4a1
               with:
-                  ref: ${{ github.event.workflow_run.head_sha || github.sha }}
                   fetch-depth: 0
 
             - name: Set up JDK 17
-              uses: actions/setup-java@v4
+              uses: actions/setup-java@99b8673ff64fbf33d533407f4f4e8f7e5054a0d3
               with:
                   java-version: "17"
                   distribution: temurin
